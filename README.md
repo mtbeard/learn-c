@@ -33,7 +33,7 @@ learn-c/
 Cloner le dépôt et ouvrir `index.html` dans un navigateur — c'est tout.
 
 ```bash
-git clone https://github.com/<ton-username>/learn-c.git
+git clone https://github.com/mtbeard/learn-c.git
 cd learn-c
 # Ouvrir index.html dans ton navigateur
 open index.html        # macOS
