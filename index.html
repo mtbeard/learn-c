@@ -1,0 +1,1118 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Référence C — Guide Complet</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- ===== SIDEBAR ===== -->
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-header">
+      <span class="logo">⚙ Langage C</span>
+      <span class="subtitle">Référence Complète</span>
+      <div class="search-wrap">
+        <input type="text" id="searchBar" placeholder="🔍  Rechercher..." autocomplete="off" />
+        <button id="clearBtn" title="Effacer">✕</button>
+      </div>
+      <div id="searchCount" class="search-count"></div>
+    </div>
+
+    <nav class="sidebar-nav">
+      <div class="nav-section-title">Bases &amp; Syntaxe</div>
+      <a href="#intro">Introduction au C</a>
+      <a href="#structure">Structure d'un programme</a>
+      <a href="#types">Types de données</a>
+      <a href="#variables">Variables &amp; Constantes</a>
+      <a href="#operateurs">Opérateurs</a>
+      <a href="#conditions">Conditions</a>
+      <a href="#boucles">Boucles</a>
+      <a href="#fonctions">Fonctions</a>
+      <a href="#tableaux">Tableaux</a>
+      <a href="#chaines">Chaînes de caractères</a>
+
+      <div class="nav-section-title">Pointeurs &amp; Mémoire</div>
+      <a href="#pointeurs-intro">Intro aux pointeurs</a>
+      <a href="#pointeurs-arith">Arithmétique des pointeurs</a>
+      <a href="#pointeurs-tableaux">Pointeurs &amp; Tableaux</a>
+      <a href="#pointeurs-double">Double pointeurs</a>
+      <a href="#allocation">Allocation dynamique</a>
+      <a href="#pointeurs-fonctions">Pointeurs de fonctions</a>
+
+      <div class="nav-section-title">Structures &amp; Unions</div>
+      <a href="#struct">struct</a>
+      <a href="#typedef">typedef</a>
+      <a href="#struct-imbriquees">Structures imbriquées</a>
+      <a href="#union">union</a>
+      <a href="#enum">enum</a>
+
+      <div class="nav-section-title">Fichiers &amp; I/O</div>
+      <a href="#io-standard">Entrées/Sorties std</a>
+      <a href="#string-h">Manipulation de chaînes</a>
+      <a href="#fichiers">Fichiers (fopen…)</a>
+      <a href="#preprocesseur">Préprocesseur &amp; Macros</a>
+    </nav>
+  </aside>
+
+  <!-- ===== MAIN CONTENT ===== -->
+  <main class="content" id="mainContent">
+
+    <!-- ===== NO RESULTS ===== -->
+    <div id="noResults" class="no-results hidden">
+      <span>🔍</span>
+      <p>Aucun résultat pour cette recherche.</p>
+    </div>
+
+    <!-- ══════════════════════════════════════
+         SECTION 1 — BASES & SYNTAXE
+    ══════════════════════════════════════ -->
+
+    <section id="intro" class="card" data-keywords="introduction historique C langage compilé Dennis Ritchie ANSI C89 C99 C11 pourquoi apprendre système bas niveau">
+      <div class="card-header">
+        <span class="badge badge-green">Débutant</span>
+        <h2>Introduction au Langage C</h2>
+      </div>
+      <p>Le C est un langage de programmation <strong>compilé</strong>, <strong>bas niveau</strong>, créé par <strong>Dennis Ritchie</strong> aux Laboratoires Bell en 1972. Il est à la base de nombreux systèmes d'exploitation (Linux, Unix, Windows) et langages modernes (C++, Java, Python).</p>
+      <h3>Pourquoi apprendre le C ?</h3>
+      <ul>
+        <li>Contrôle total de la mémoire et des ressources</li>
+        <li>Extrêmement rapide et portable</li>
+        <li>Base indispensable pour comprendre d'autres langages</li>
+        <li>Utilisé en programmation système, embarqué, noyaux OS</li>
+      </ul>
+      <h3>Standards principaux</h3>
+      <table>
+        <thead><tr><th>Standard</th><th>Année</th><th>Notes</th></tr></thead>
+        <tbody>
+          <tr><td>K&amp;R C</td><td>1978</td><td>Premier livre de référence</td></tr>
+          <tr><td>ANSI C / C89</td><td>1989</td><td>Premier standard officiel</td></tr>
+          <tr><td>C99</td><td>1999</td><td>Types bool, VLA, commentaires //</td></tr>
+          <tr><td>C11</td><td>2011</td><td>Threads, alignement, _Generic</td></tr>
+          <tr><td>C17</td><td>2018</td><td>Corrections de C11</td></tr>
+          <tr><td>C23</td><td>2023</td><td>Dernier standard en vigueur</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section id="structure" class="card" data-keywords="structure programme main include stdio hello world compilation gcc commentaire return">
+      <div class="card-header">
+        <span class="badge badge-green">Débutant</span>
+        <h2>Structure d'un Programme C</h2>
+      </div>
+      <p>Tout programme C doit posséder une fonction <code>main()</code>. C'est le point d'entrée du programme.</p>
+      <pre><code><span class="c-comment">// Inclusion d'une bibliothèque standard</span>
+<span class="c-include">#include</span> <span class="c-string">&lt;stdio.h&gt;</span>
+
+<span class="c-comment">/* Commentaire
+   multi-ligne */</span>
+<span class="c-type">int</span> <span class="c-func">main</span>(<span class="c-type">void</span>) {
+    <span class="c-func">printf</span>(<span class="c-string">"Bonjour le monde!\n"</span>);
+    <span class="c-keyword">return</span> <span class="c-num">0</span>;  <span class="c-comment">// 0 = succès</span>
+}</code></pre>
+      <h3>Compilation avec GCC</h3>
+      <pre><code><span class="c-comment"># Compiler</span>
+gcc -o mon_programme mon_fichier.c
+
+<span class="c-comment"># Compiler avec avertissements (recommandé)</span>
+gcc -Wall -Wextra -o mon_programme mon_fichier.c
+
+<span class="c-comment"># Compiler en C99</span>
+gcc -std=c99 -Wall -o mon_programme mon_fichier.c
+
+<span class="c-comment"># Exécuter</span>
+./mon_programme</code></pre>
+      <h3>Étapes de compilation</h3>
+      <table>
+        <thead><tr><th>Étape</th><th>Outil</th><th>Résultat</th></tr></thead>
+        <tbody>
+          <tr><td>Préprocessing</td><td>cpp</td><td>Fichier .i (includes résolus)</td></tr>
+          <tr><td>Compilation</td><td>cc1</td><td>Fichier .s (assembleur)</td></tr>
+          <tr><td>Assemblage</td><td>as</td><td>Fichier .o (objet)</td></tr>
+          <tr><td>Edition de liens</td><td>ld</td><td>Exécutable final</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section id="types" class="card" data-keywords="types données int float double char long short unsigned signed void size_t sizeof tableau entier flottant booléen">
+      <div class="card-header">
+        <span class="badge badge-green">Débutant</span>
+        <h2>Types de Données</h2>
+      </div>
+      <h3>Types entiers</h3>
+      <table>
+        <thead><tr><th>Type</th><th>Taille typique</th><th>Plage (signé)</th></tr></thead>
+        <tbody>
+          <tr><td><code>char</code></td><td>1 octet</td><td>-128 à 127</td></tr>
+          <tr><td><code>unsigned char</code></td><td>1 octet</td><td>0 à 255</td></tr>
+          <tr><td><code>short</code></td><td>2 octets</td><td>-32 768 à 32 767</td></tr>
+          <tr><td><code>int</code></td><td>4 octets</td><td>-2 147 483 648 à 2 147 483 647</td></tr>
+          <tr><td><code>unsigned int</code></td><td>4 octets</td><td>0 à 4 294 967 295</td></tr>
+          <tr><td><code>long</code></td><td>4 ou 8 octets</td><td>Dépend de la plateforme</td></tr>
+          <tr><td><code>long long</code></td><td>8 octets</td><td>±9.2 × 10¹⁸</td></tr>
+        </tbody>
+      </table>
+      <h3>Types flottants</h3>
+      <table>
+        <thead><tr><th>Type</th><th>Taille</th><th>Précision</th></tr></thead>
+        <tbody>
+          <tr><td><code>float</code></td><td>4 octets</td><td>~7 chiffres significatifs</td></tr>
+          <tr><td><code>double</code></td><td>8 octets</td><td>~15 chiffres significatifs</td></tr>
+          <tr><td><code>long double</code></td><td>10-16 octets</td><td>~18-19 chiffres significatifs</td></tr>
+        </tbody>
+      </table>
+      <h3>Opérateur sizeof</h3>
+      <pre><code><span class="c-include">#include</span> <span class="c-string">&lt;stdio.h&gt;</span>
+
+<span class="c-type">int</span> <span class="c-func">main</span>() {
+    <span class="c-func">printf</span>(<span class="c-string">"int    : %zu octets\n"</span>, <span class="c-keyword">sizeof</span>(<span class="c-type">int</span>));
+    <span class="c-func">printf</span>(<span class="c-string">"double : %zu octets\n"</span>, <span class="c-keyword">sizeof</span>(<span class="c-type">double</span>));
+    <span class="c-func">printf</span>(<span class="c-string">"char   : %zu octets\n"</span>, <span class="c-keyword">sizeof</span>(<span class="c-type">char</span>));
+    <span class="c-keyword">return</span> <span class="c-num">0</span>;
+}</code></pre>
+      <h3>Types portables — stdint.h (recommandé)</h3>
+      <pre><code><span class="c-include">#include</span> <span class="c-string">&lt;stdint.h&gt;</span>
+
+<span class="c-type">int8_t</span>   a = <span class="c-num">-5</span>;       <span class="c-comment">// Exactement 8 bits signé</span>
+<span class="c-type">uint8_t</span>  b = <span class="c-num">255</span>;      <span class="c-comment">// Exactement 8 bits non-signé</span>
+<span class="c-type">int16_t</span>  c = <span class="c-num">1000</span>;     <span class="c-comment">// 16 bits signé</span>
+<span class="c-type">uint32_t</span> d = <span class="c-num">400000</span>;   <span class="c-comment">// 32 bits non-signé</span>
+<span class="c-type">int64_t</span>  e = <span class="c-num">-1LL</span>;     <span class="c-comment">// 64 bits signé</span></code></pre>
+    </section>
+
+    <section id="variables" class="card" data-keywords="variables déclaration initialisation constantes const define portée scope locale globale statique extern register volatile">
+      <div class="card-header">
+        <span class="badge badge-green">Débutant</span>
+        <h2>Variables &amp; Constantes</h2>
+      </div>
+      <pre><code><span class="c-comment">// Déclaration</span>
+<span class="c-type">int</span> age;
+
+<span class="c-comment">// Déclaration + initialisation</span>
+<span class="c-type">int</span> age = <span class="c-num">25</span>;
+<span class="c-type">float</span> pi = <span class="c-num">3.14159f</span>;
+<span class="c-type">char</span> lettre = <span class="c-string">'A'</span>;
+<span class="c-type">double</span> val = <span class="c-num">1.23e10</span>;
+
+<span class="c-comment">// Déclarations multiples</span>
+<span class="c-type">int</span> x = <span class="c-num">1</span>, y = <span class="c-num">2</span>, z = <span class="c-num">3</span>;</code></pre>
+      <h3>Constantes</h3>
+      <pre><code><span class="c-comment">// Avec #define (préprocesseur, pas de type)</span>
+<span class="c-include">#define</span> PI 3.14159
+<span class="c-include">#define</span> MAX_TAILLE 100
+
+<span class="c-comment">// Avec const (recommandé — a un type)</span>
+<span class="c-keyword">const</span> <span class="c-type">double</span> PI = <span class="c-num">3.14159265358979</span>;
+<span class="c-keyword">const</span> <span class="c-type">int</span> MAX = <span class="c-num">100</span>;</code></pre>
+      <h3>Qualificateurs de variables</h3>
+      <table>
+        <thead><tr><th>Qualificateur</th><th>Rôle</th></tr></thead>
+        <tbody>
+          <tr><td><code>const</code></td><td>Valeur non modifiable après initialisation</td></tr>
+          <tr><td><code>volatile</code></td><td>Valeur peut changer en dehors du programme (registres matériels)</td></tr>
+          <tr><td><code>static</code></td><td>Variable locale persistante entre appels / variable de fichier</td></tr>
+          <tr><td><code>extern</code></td><td>Variable définie dans un autre fichier</td></tr>
+          <tr><td><code>register</code></td><td>Suggestion au compilateur de placer dans un registre (obsolète)</td></tr>
+        </tbody>
+      </table>
+      <pre><code><span class="c-comment">// static : la valeur persiste entre les appels</span>
+<span class="c-type">void</span> <span class="c-func">compteur</span>() {
+    <span class="c-keyword">static</span> <span class="c-type">int</span> n = <span class="c-num">0</span>;
+    n++;
+    <span class="c-func">printf</span>(<span class="c-string">"Appel n°%d\n"</span>, n);
+}</code></pre>
+    </section>
+
+    <section id="operateurs" class="card" data-keywords="opérateurs arithmétiques logiques comparaison affectation bits ternaire modulo priorité">
+      <div class="card-header">
+        <span class="badge badge-green">Débutant</span>
+        <h2>Opérateurs</h2>
+      </div>
+      <h3>Arithmétiques</h3>
+      <pre><code><span class="c-type">int</span> a = <span class="c-num">10</span>, b = <span class="c-num">3</span>;
+a + b   <span class="c-comment">// 13</span>
+a - b   <span class="c-comment">// 7</span>
+a * b   <span class="c-comment">// 30</span>
+a / b   <span class="c-comment">// 3  (division entière !)</span>
+a % b   <span class="c-comment">// 1  (modulo)</span>
+a++     <span class="c-comment">// post-incrément (retourne a, puis +1)</span>
+++a     <span class="c-comment">// pré-incrément (+1, puis retourne a)</span>
+a--     <span class="c-comment">// post-décrément</span></code></pre>
+      <h3>Comparaison</h3>
+      <pre><code>a == b   <span class="c-comment">// égal</span>
+a != b   <span class="c-comment">// différent</span>
+a &lt;  b   <span class="c-comment">// inférieur</span>
+a &gt;  b   <span class="c-comment">// supérieur</span>
+a &lt;= b   <span class="c-comment">// inférieur ou égal</span>
+a &gt;= b   <span class="c-comment">// supérieur ou égal</span>
+<span class="c-comment">// ⚠ Résultat : 0 (faux) ou 1 (vrai)</span></code></pre>
+      <h3>Logiques</h3>
+      <pre><code>a &amp;&amp; b   <span class="c-comment">// ET logique (court-circuit)</span>
+a || b   <span class="c-comment">// OU logique (court-circuit)</span>
+!a       <span class="c-comment">// NON logique</span></code></pre>
+      <h3>Affectation</h3>
+      <pre><code>a  = b    <span class="c-comment">// affectation simple</span>
+a += b    <span class="c-comment">// a = a + b</span>
+a -= b    <span class="c-comment">// a = a - b</span>
+a *= b    <span class="c-comment">// a = a * b</span>
+a /= b    <span class="c-comment">// a = a / b</span>
+a %= b    <span class="c-comment">// a = a % b</span>
+a &amp;= b    <span class="c-comment">// a = a &amp; b  (ET bit à bit)</span>
+a |= b    <span class="c-comment">// a = a | b  (OU bit à bit)</span>
+a ^= b    <span class="c-comment">// a = a ^ b  (XOR bit à bit)</span>
+a &lt;&lt;= 2   <span class="c-comment">// décalage à gauche</span>
+a &gt;&gt;= 1   <span class="c-comment">// décalage à droite</span></code></pre>
+      <h3>Opérateurs bit à bit</h3>
+      <pre><code>a &amp; b    <span class="c-comment">// ET bit à bit</span>
+a | b    <span class="c-comment">// OU bit à bit</span>
+a ^ b    <span class="c-comment">// XOR bit à bit</span>
+~a       <span class="c-comment">// complément à 1</span>
+a &lt;&lt; n   <span class="c-comment">// décalage à gauche de n bits (× 2ⁿ)</span>
+a &gt;&gt; n   <span class="c-comment">// décalage à droite de n bits (÷ 2ⁿ)</span></code></pre>
+      <h3>Opérateur ternaire</h3>
+      <pre><code><span class="c-comment">// condition ? valeur_si_vrai : valeur_si_faux</span>
+<span class="c-type">int</span> max = (a &gt; b) ? a : b;
+<span class="c-type">char</span> *signe = (a &gt;= <span class="c-num">0</span>) ? <span class="c-string">"positif"</span> : <span class="c-string">"négatif"</span>;</code></pre>
+    </section>
+
+    <section id="conditions" class="card" data-keywords="conditions if else switch case break default branchement conditionnel">
+      <div class="card-header">
+        <span class="badge badge-green">Débutant</span>
+        <h2>Conditions</h2>
+      </div>
+      <h3>if / else if / else</h3>
+      <pre><code><span class="c-type">int</span> note = <span class="c-num">75</span>;
+
+<span class="c-keyword">if</span> (note &gt;= <span class="c-num">90</span>) {
+    <span class="c-func">printf</span>(<span class="c-string">"Excellent\n"</span>);
+} <span class="c-keyword">else if</span> (note &gt;= <span class="c-num">70</span>) {
+    <span class="c-func">printf</span>(<span class="c-string">"Bien\n"</span>);
+} <span class="c-keyword">else if</span> (note &gt;= <span class="c-num">50</span>) {
+    <span class="c-func">printf</span>(<span class="c-string">"Passable\n"</span>);
+} <span class="c-keyword">else</span> {
+    <span class="c-func">printf</span>(<span class="c-string">"Échec\n"</span>);
+}</code></pre>
+      <div class="tip">⚠️ <strong>Piège classique</strong> : utiliser <code>=</code> au lieu de <code>==</code> dans un <code>if</code>. <code>if (x = 5)</code> assigne 5 à x et est toujours vrai !</div>
+      <h3>switch / case</h3>
+      <pre><code><span class="c-type">int</span> jour = <span class="c-num">3</span>;
+
+<span class="c-keyword">switch</span> (jour) {
+    <span class="c-keyword">case</span> <span class="c-num">1</span>: <span class="c-func">printf</span>(<span class="c-string">"Lundi\n"</span>);    <span class="c-keyword">break</span>;
+    <span class="c-keyword">case</span> <span class="c-num">2</span>: <span class="c-func">printf</span>(<span class="c-string">"Mardi\n"</span>);    <span class="c-keyword">break</span>;
+    <span class="c-keyword">case</span> <span class="c-num">3</span>: <span class="c-func">printf</span>(<span class="c-string">"Mercredi\n"</span>); <span class="c-keyword">break</span>;
+    <span class="c-keyword">case</span> <span class="c-num">6</span>:
+    <span class="c-keyword">case</span> <span class="c-num">7</span>: <span class="c-func">printf</span>(<span class="c-string">"Week-end\n"</span>); <span class="c-keyword">break</span>;  <span class="c-comment">// Fall-through voulu</span>
+    <span class="c-keyword">default</span>: <span class="c-func">printf</span>(<span class="c-string">"Jour inconnu\n"</span>);
+}
+<span class="c-comment">// ⚠ Sans break, l'exécution continue aux cases suivants (fall-through)</span></code></pre>
+    </section>
+
+    <section id="boucles" class="card" data-keywords="boucles for while do-while break continue goto itération loop répétition">
+      <div class="card-header">
+        <span class="badge badge-green">Débutant</span>
+        <h2>Boucles</h2>
+      </div>
+      <h3>for</h3>
+      <pre><code><span class="c-comment">// for (init; condition; incrément)</span>
+<span class="c-keyword">for</span> (<span class="c-type">int</span> i = <span class="c-num">0</span>; i &lt; <span class="c-num">5</span>; i++) {
+    <span class="c-func">printf</span>(<span class="c-string">"%d\n"</span>, i);  <span class="c-comment">// Affiche 0 1 2 3 4</span>
+}
+
+<span class="c-comment">// Boucle infinie</span>
+<span class="c-keyword">for</span> (;;) { <span class="c-comment">/* ... */</span> }
+
+<span class="c-comment">// Plusieurs variables</span>
+<span class="c-keyword">for</span> (<span class="c-type">int</span> i = <span class="c-num">0</span>, j = <span class="c-num">10</span>; i &lt; j; i++, j--) {
+    <span class="c-func">printf</span>(<span class="c-string">"i=%d j=%d\n"</span>, i, j);
+}</code></pre>
+      <h3>while</h3>
+      <pre><code><span class="c-type">int</span> n = <span class="c-num">1</span>;
+<span class="c-keyword">while</span> (n &lt;= <span class="c-num">10</span>) {
+    <span class="c-func">printf</span>(<span class="c-string">"%d\n"</span>, n);
+    n++;
+}</code></pre>
+      <h3>do-while</h3>
+      <pre><code><span class="c-comment">// S'exécute au moins une fois !</span>
+<span class="c-type">int</span> choix;
+<span class="c-keyword">do</span> {
+    <span class="c-func">printf</span>(<span class="c-string">"Entrez un nombre entre 1 et 10 : "</span>);
+    <span class="c-func">scanf</span>(<span class="c-string">"%d"</span>, &amp;choix);
+} <span class="c-keyword">while</span> (choix &lt; <span class="c-num">1</span> || choix &gt; <span class="c-num">10</span>);</code></pre>
+      <h3>break et continue</h3>
+      <pre><code><span class="c-keyword">for</span> (<span class="c-type">int</span> i = <span class="c-num">0</span>; i &lt; <span class="c-num">10</span>; i++) {
+    <span class="c-keyword">if</span> (i == <span class="c-num">3</span>) <span class="c-keyword">continue</span>; <span class="c-comment">// Saute i=3</span>
+    <span class="c-keyword">if</span> (i == <span class="c-num">7</span>) <span class="c-keyword">break</span>;    <span class="c-comment">// Quitte la boucle à i=7</span>
+    <span class="c-func">printf</span>(<span class="c-string">"%d\n"</span>, i);      <span class="c-comment">// Affiche 0,1,2,4,5,6</span>
+}</code></pre>
+    </section>
+
+    <section id="fonctions" class="card" data-keywords="fonctions prototype déclaration définition paramètres retour void récursion inline scope pile stack">
+      <div class="card-header">
+        <span class="badge badge-yellow">Intermédiaire</span>
+        <h2>Fonctions</h2>
+      </div>
+      <pre><code><span class="c-comment">// Prototype (déclaration) — avant main si nécessaire</span>
+<span class="c-type">int</span> <span class="c-func">additionner</span>(<span class="c-type">int</span> a, <span class="c-type">int</span> b);
+
+<span class="c-comment">// Définition</span>
+<span class="c-type">int</span> <span class="c-func">additionner</span>(<span class="c-type">int</span> a, <span class="c-type">int</span> b) {
+    <span class="c-keyword">return</span> a + b;
+}
+
+<span class="c-comment">// Fonction sans valeur de retour</span>
+<span class="c-type">void</span> <span class="c-func">afficher</span>(<span class="c-type">char</span> *message) {
+    <span class="c-func">printf</span>(<span class="c-string">"%s\n"</span>, message);
+}
+
+<span class="c-comment">// Appel</span>
+<span class="c-type">int</span> resultat = <span class="c-func">additionner</span>(<span class="c-num">3</span>, <span class="c-num">4</span>);  <span class="c-comment">// 7</span></code></pre>
+      <h3>Passage par valeur vs par adresse</h3>
+      <pre><code><span class="c-comment">// Par valeur — la copie est modifiée, pas l'original</span>
+<span class="c-type">void</span> <span class="c-func">parValeur</span>(<span class="c-type">int</span> x) {
+    x = <span class="c-num">100</span>;  <span class="c-comment">// n'affecte pas l'original</span>
+}
+
+<span class="c-comment">// Par adresse — modifie l'original via pointeur</span>
+<span class="c-type">void</span> <span class="c-func">parAdresse</span>(<span class="c-type">int</span> *x) {
+    *x = <span class="c-num">100</span>;  <span class="c-comment">// modifie l'original !</span>
+}
+
+<span class="c-type">int</span> <span class="c-func">main</span>() {
+    <span class="c-type">int</span> n = <span class="c-num">5</span>;
+    <span class="c-func">parValeur</span>(n);         <span class="c-comment">// n reste 5</span>
+    <span class="c-func">parAdresse</span>(&amp;n);       <span class="c-comment">// n devient 100</span>
+}</code></pre>
+      <h3>Récursion</h3>
+      <pre><code><span class="c-comment">// Factorielle récursive</span>
+<span class="c-type">long long</span> <span class="c-func">factorielle</span>(<span class="c-type">int</span> n) {
+    <span class="c-keyword">if</span> (n &lt;= <span class="c-num">1</span>) <span class="c-keyword">return</span> <span class="c-num">1</span>;
+    <span class="c-keyword">return</span> n * <span class="c-func">factorielle</span>(n - <span class="c-num">1</span>);
+}
+<span class="c-comment">// ⚠ Attention aux débordements de pile (stack overflow)</span></code></pre>
+      <h3>Arguments de main</h3>
+      <pre><code><span class="c-comment">// argc = nombre d'arguments, argv = tableau de chaînes</span>
+<span class="c-type">int</span> <span class="c-func">main</span>(<span class="c-type">int</span> argc, <span class="c-type">char</span> *argv[]) {
+    <span class="c-func">printf</span>(<span class="c-string">"Nom du programme : %s\n"</span>, argv[<span class="c-num">0</span>]);
+    <span class="c-keyword">for</span> (<span class="c-type">int</span> i = <span class="c-num">1</span>; i &lt; argc; i++) {
+        <span class="c-func">printf</span>(<span class="c-string">"Arg %d : %s\n"</span>, i, argv[i]);
+    }
+    <span class="c-keyword">return</span> <span class="c-num">0</span>;
+}</code></pre>
+    </section>
+
+    <section id="tableaux" class="card" data-keywords="tableaux array déclaration initialisation indice multidimensionnel 2D matrice tableau statique">
+      <div class="card-header">
+        <span class="badge badge-green">Débutant</span>
+        <h2>Tableaux</h2>
+      </div>
+      <pre><code><span class="c-comment">// Déclaration — taille fixe, connue à la compilation</span>
+<span class="c-type">int</span> notes[<span class="c-num">5</span>];
+
+<span class="c-comment">// Initialisation</span>
+<span class="c-type">int</span> notes[<span class="c-num">5</span>] = {<span class="c-num">10</span>, <span class="c-num">15</span>, <span class="c-num">18</span>, <span class="c-num">7</span>, <span class="c-num">12</span>};
+
+<span class="c-comment">// Taille déduite automatiquement</span>
+<span class="c-type">int</span> notes[] = {<span class="c-num">10</span>, <span class="c-num">15</span>, <span class="c-num">18</span>, <span class="c-num">7</span>, <span class="c-num">12</span>};  <span class="c-comment">// taille = 5</span>
+
+<span class="c-comment">// Initialisation partielle (reste à 0)</span>
+<span class="c-type">int</span> tab[<span class="c-num">10</span>] = {<span class="c-num">0</span>};  <span class="c-comment">// tous les éléments = 0</span>
+
+<span class="c-comment">// Accès (indices commencent à 0)</span>
+notes[<span class="c-num">0</span>] = <span class="c-num">20</span>;
+<span class="c-func">printf</span>(<span class="c-string">"%d\n"</span>, notes[<span class="c-num">2</span>]);  <span class="c-comment">// 18</span>
+
+<span class="c-comment">// Parcours</span>
+<span class="c-type">int</span> taille = <span class="c-keyword">sizeof</span>(notes) / <span class="c-keyword">sizeof</span>(notes[<span class="c-num">0</span>]);
+<span class="c-keyword">for</span> (<span class="c-type">int</span> i = <span class="c-num">0</span>; i &lt; taille; i++) {
+    <span class="c-func">printf</span>(<span class="c-string">"%d\n"</span>, notes[i]);
+}</code></pre>
+      <h3>Tableaux 2D (matrices)</h3>
+      <pre><code><span class="c-comment">// Déclaration — [lignes][colonnes]</span>
+<span class="c-type">int</span> matrice[<span class="c-num">3</span>][<span class="c-num">4</span>];
+
+<span class="c-comment">// Initialisation</span>
+<span class="c-type">int</span> mat[<span class="c-num">2</span>][<span class="c-num">3</span>] = {
+    {<span class="c-num">1</span>, <span class="c-num">2</span>, <span class="c-num">3</span>},
+    {<span class="c-num">4</span>, <span class="c-num">5</span>, <span class="c-num">6</span>}
+};
+
+<span class="c-comment">// Accès</span>
+mat[<span class="c-num">1</span>][<span class="c-num">2</span>] = <span class="c-num">99</span>;   <span class="c-comment">// ligne 1, colonne 2</span>
+
+<span class="c-comment">// Parcours</span>
+<span class="c-keyword">for</span> (<span class="c-type">int</span> i = <span class="c-num">0</span>; i &lt; <span class="c-num">2</span>; i++) {
+    <span class="c-keyword">for</span> (<span class="c-type">int</span> j = <span class="c-num">0</span>; j &lt; <span class="c-num">3</span>; j++) {
+        <span class="c-func">printf</span>(<span class="c-string">"%d "</span>, mat[i][j]);
+    }
+    <span class="c-func">printf</span>(<span class="c-string">"\n"</span>);
+}
+
+<span class="c-comment">// Passer un tableau 2D à une fonction</span>
+<span class="c-type">void</span> <span class="c-func">afficher</span>(<span class="c-type">int</span> m[][<span class="c-num">3</span>], <span class="c-type">int</span> lignes) { <span class="c-comment">/* ... */</span> }</code></pre>
+      <div class="tip">⚠️ <strong>Pas de vérification des bornes en C !</strong> Accéder à <code>notes[10]</code> sur un tableau de 5 éléments est un comportement indéfini (buffer overflow).</div>
+    </section>
+
+    <section id="chaines" class="card" data-keywords="chaînes caractères string char tableau null terminé strlen strcpy strcat strcmp sprintf gets fgets">
+      <div class="card-header">
+        <span class="badge badge-green">Débutant</span>
+        <h2>Chaînes de Caractères</h2>
+      </div>
+      <p>En C, une chaîne est un <strong>tableau de <code>char</code> terminé par le caractère nul <code>'\0'</code></strong>.</p>
+      <pre><code><span class="c-comment">// Déclaration littérale (en lecture seule)</span>
+<span class="c-type">char</span> *s1 = <span class="c-string">"Bonjour"</span>;        <span class="c-comment">// ⚠ Non modifiable !</span>
+
+<span class="c-comment">// Tableau — modifiable</span>
+<span class="c-type">char</span> s2[<span class="c-num">20</span>] = <span class="c-string">"Bonjour"</span>;      <span class="c-comment">// réservé pour 20 chars</span>
+<span class="c-type">char</span> s3[] = <span class="c-string">"Bonjour"</span>;        <span class="c-comment">// taille = 8 (7 + '\0')</span>
+
+<span class="c-comment">// Accès aux caractères</span>
+s2[<span class="c-num">0</span>] = <span class="c-string">'b'</span>;               <span class="c-comment">// "bonjour"</span>
+<span class="c-func">printf</span>(<span class="c-string">"%c\n"</span>, s3[<span class="c-num">3</span>]);     <span class="c-comment">// 'j'</span>
+
+<span class="c-comment">// Affichage</span>
+<span class="c-func">printf</span>(<span class="c-string">"%s\n"</span>, s2);          <span class="c-comment">// %s pour une chaîne</span>
+<span class="c-func">puts</span>(s2);                   <span class="c-comment">// affiche + \n</span>
+
+<span class="c-comment">// Longueur</span>
+<span class="c-type">int</span> len = <span class="c-func">strlen</span>(s2);       <span class="c-comment">// 7 (sans '\0')</span></code></pre>
+      <div class="tip">💡 <code>sizeof(s3)</code> retourne <strong>8</strong> (inclut <code>'\0'</code>), tandis que <code>strlen(s3)</code> retourne <strong>7</strong>.</div>
+    </section>
+
+    <!-- ══════════════════════════════════════
+         SECTION 2 — POINTEURS & MÉMOIRE
+    ══════════════════════════════════════ -->
+
+    <section id="pointeurs-intro" class="card" data-keywords="pointeurs introduction adresse mémoire déréférencement NULL & * pointeur void déclaration">
+      <div class="card-header">
+        <span class="badge badge-yellow">Intermédiaire</span>
+        <h2>Introduction aux Pointeurs</h2>
+      </div>
+      <p>Un <strong>pointeur</strong> est une variable qui stocke l'<strong>adresse mémoire</strong> d'une autre variable.</p>
+      <pre><code><span class="c-type">int</span> x = <span class="c-num">42</span>;
+<span class="c-type">int</span> *p = &amp;x;     <span class="c-comment">// p pointe vers x</span>
+                  <span class="c-comment">// &amp;x = adresse de x</span>
+
+<span class="c-func">printf</span>(<span class="c-string">"%d\n"</span>, x);   <span class="c-comment">// 42 — valeur de x</span>
+<span class="c-func">printf</span>(<span class="c-string">"%p\n"</span>, p);   <span class="c-comment">// adresse ex: 0x7ffe3a4b2c10</span>
+<span class="c-func">printf</span>(<span class="c-string">"%d\n"</span>, *p);  <span class="c-comment">// 42 — déréférencement</span>
+
+*p = <span class="c-num">100</span>;           <span class="c-comment">// Modifie x via le pointeur</span>
+<span class="c-func">printf</span>(<span class="c-string">"%d\n"</span>, x);   <span class="c-comment">// 100</span></code></pre>
+      <h3>Déclaration des pointeurs</h3>
+      <pre><code><span class="c-type">int</span>    *pi;    <span class="c-comment">// Pointeur vers int</span>
+<span class="c-type">double</span> *pd;    <span class="c-comment">// Pointeur vers double</span>
+<span class="c-type">char</span>   *pc;    <span class="c-comment">// Pointeur vers char</span>
+<span class="c-type">void</span>   *pv;    <span class="c-comment">// Pointeur générique (pas de type)</span>
+
+<span class="c-comment">// ⚠ Piège syntaxique</span>
+<span class="c-type">int</span> *a, b;    <span class="c-comment">// a est un pointeur, b est un int !</span>
+<span class="c-type">int</span> *a, *b;   <span class="c-comment">// a et b sont des pointeurs</span>
+
+<span class="c-comment">// Pointeur NULL (ne pointe vers rien)</span>
+<span class="c-type">int</span> *p = NULL;
+<span class="c-keyword">if</span> (p != NULL) { *p = <span class="c-num">5</span>; }  <span class="c-comment">// Vérifier avant déréférencer</span></code></pre>
+      <div class="tip">⚠️ <strong>Déréférencer un pointeur NULL ou non initialisé = comportement indéfini (crash)</strong>. Toujours initialiser les pointeurs.</div>
+    </section>
+
+    <section id="pointeurs-arith" class="card" data-keywords="arithmétique pointeurs incrémentation décrémentation soustraction addition décalage navigation">
+      <div class="card-header">
+        <span class="badge badge-yellow">Intermédiaire</span>
+        <h2>Arithmétique des Pointeurs</h2>
+      </div>
+      <p>L'arithmétique des pointeurs permet de naviguer dans la mémoire en tenant compte de la taille du type pointé.</p>
+      <pre><code><span class="c-type">int</span> tab[] = {<span class="c-num">10</span>, <span class="c-num">20</span>, <span class="c-num">30</span>, <span class="c-num">40</span>, <span class="c-num">50</span>};
+<span class="c-type">int</span> *p = tab;   <span class="c-comment">// pointe sur tab[0]</span>
+
+<span class="c-func">printf</span>(<span class="c-string">"%d\n"</span>, *p);      <span class="c-comment">// 10</span>
+<span class="c-func">printf</span>(<span class="c-string">"%d\n"</span>, *(p+<span class="c-num">1</span>));  <span class="c-comment">// 20 (avance de sizeof(int) octets)</span>
+<span class="c-func">printf</span>(<span class="c-string">"%d\n"</span>, *(p+<span class="c-num">4</span>));  <span class="c-comment">// 50</span>
+
+p++;            <span class="c-comment">// p pointe maintenant sur tab[1]</span>
+<span class="c-func">printf</span>(<span class="c-string">"%d\n"</span>, *p);      <span class="c-comment">// 20</span>
+
+p += <span class="c-num">2</span>;         <span class="c-comment">// p pointe sur tab[3]</span>
+<span class="c-func">printf</span>(<span class="c-string">"%d\n"</span>, *p);      <span class="c-comment">// 40</span>
+
+<span class="c-comment">// Différence entre pointeurs</span>
+<span class="c-type">int</span> *debut = tab;
+<span class="c-type">int</span> *fin = tab + <span class="c-num">4</span>;
+<span class="c-func">printf</span>(<span class="c-string">"%td\n"</span>, fin - debut);  <span class="c-comment">// 4 (éléments entre les deux)</span></code></pre>
+      <h3>Équivalence tableau / pointeur</h3>
+      <pre><code>tab[i]  ≡  *(tab + i)   <span class="c-comment">// identiques !</span>
+&amp;tab[i] ≡  tab + i</code></pre>
+    </section>
+
+    <section id="pointeurs-tableaux" class="card" data-keywords="pointeurs tableaux passage fonction array paramètre décroissance decay">
+      <div class="card-header">
+        <span class="badge badge-yellow">Intermédiaire</span>
+        <h2>Pointeurs &amp; Tableaux</h2>
+      </div>
+      <pre><code><span class="c-comment">// Un tableau "décroit" en pointeur vers son 1er élément</span>
+<span class="c-type">int</span> tab[] = {<span class="c-num">1</span>, <span class="c-num">2</span>, <span class="c-num">3</span>};
+<span class="c-type">int</span> *p = tab;    <span class="c-comment">// équivalent à &amp;tab[0]</span>
+
+<span class="c-comment">// Passer un tableau à une fonction</span>
+<span class="c-type">void</span> <span class="c-func">afficher</span>(<span class="c-type">int</span> *arr, <span class="c-type">int</span> taille) {
+    <span class="c-keyword">for</span> (<span class="c-type">int</span> i = <span class="c-num">0</span>; i &lt; taille; i++)
+        <span class="c-func">printf</span>(<span class="c-string">"%d\n"</span>, arr[i]);
+}
+
+<span class="c-comment">// Les 3 syntaxes sont équivalentes pour les paramètres</span>
+<span class="c-type">void</span> <span class="c-func">f</span>(<span class="c-type">int</span> *arr, <span class="c-type">int</span> n);
+<span class="c-type">void</span> <span class="c-func">f</span>(<span class="c-type">int</span> arr[], <span class="c-type">int</span> n);
+<span class="c-type">void</span> <span class="c-func">f</span>(<span class="c-type">int</span> arr[<span class="c-num">10</span>], <span class="c-type">int</span> n);  <span class="c-comment">// la taille est ignorée</span>
+
+<span class="c-comment">// Différence : sizeof(tab) vs sizeof(p)</span>
+<span class="c-func">printf</span>(<span class="c-string">"%zu\n"</span>, <span class="c-keyword">sizeof</span>(tab)); <span class="c-comment">// 12 (3 × 4 octets) — dans main</span>
+<span class="c-func">printf</span>(<span class="c-string">"%zu\n"</span>, <span class="c-keyword">sizeof</span>(p));   <span class="c-comment">// 8 (taille d'un pointeur)</span></code></pre>
+    </section>
+
+    <section id="pointeurs-double" class="card" data-keywords="double pointeurs pointeur de pointeur ** tableau de chaînes argv indirection">
+      <div class="card-header">
+        <span class="badge badge-red">Avancé</span>
+        <h2>Double Pointeurs (Pointeur de Pointeur)</h2>
+      </div>
+      <pre><code><span class="c-type">int</span> x = <span class="c-num">42</span>;
+<span class="c-type">int</span> *p = &amp;x;
+<span class="c-type">int</span> **pp = &amp;p;   <span class="c-comment">// Pointeur vers un pointeur vers int</span>
+
+<span class="c-func">printf</span>(<span class="c-string">"%d\n"</span>, **pp);   <span class="c-comment">// 42 — double déréférencement</span>
+
+<span class="c-comment">// Modifier un pointeur dans une fonction</span>
+<span class="c-type">void</span> <span class="c-func">allouer</span>(<span class="c-type">int</span> **ptr, <span class="c-type">int</span> val) {
+    *ptr = (<span class="c-type">int</span> *)<span class="c-func">malloc</span>(<span class="c-keyword">sizeof</span>(<span class="c-type">int</span>));
+    **ptr = val;
+}
+
+<span class="c-comment">// Tableau de chaînes (char**)</span>
+<span class="c-type">char</span> *fruits[] = {<span class="c-string">"pomme"</span>, <span class="c-string">"banane"</span>, <span class="c-string">"cerise"</span>};
+<span class="c-type">char</span> **pf = fruits;
+<span class="c-func">printf</span>(<span class="c-string">"%s\n"</span>, pf[<span class="c-num">1</span>]);    <span class="c-comment">// "banane"</span>
+<span class="c-func">printf</span>(<span class="c-string">"%s\n"</span>, *(pf+<span class="c-num">2</span>));  <span class="c-comment">// "cerise"</span></code></pre>
+    </section>
+
+    <section id="allocation" class="card" data-keywords="allocation dynamique malloc calloc realloc free heap tas mémoire fuite leak valgrind sizeof">
+      <div class="card-header">
+        <span class="badge badge-yellow">Intermédiaire</span>
+        <h2>Allocation Dynamique de Mémoire</h2>
+      </div>
+      <p>L'allocation dynamique se fait sur le <strong>tas (heap)</strong>, contrairement aux variables locales qui sont sur la <strong>pile (stack)</strong>.</p>
+      <pre><code><span class="c-include">#include</span> <span class="c-string">&lt;stdlib.h&gt;</span>
+
+<span class="c-comment">// malloc — alloue n octets, non initialisé</span>
+<span class="c-type">int</span> *p = (<span class="c-type">int</span> *)<span class="c-func">malloc</span>(<span class="c-num">5</span> * <span class="c-keyword">sizeof</span>(<span class="c-type">int</span>));
+<span class="c-keyword">if</span> (p == NULL) { <span class="c-comment">/* Toujours vérifier ! */</span> }
+
+<span class="c-comment">// calloc — alloue et initialise à 0</span>
+<span class="c-type">int</span> *q = (<span class="c-type">int</span> *)<span class="c-func">calloc</span>(<span class="c-num">5</span>, <span class="c-keyword">sizeof</span>(<span class="c-type">int</span>));
+
+<span class="c-comment">// Utilisation</span>
+<span class="c-keyword">for</span> (<span class="c-type">int</span> i = <span class="c-num">0</span>; i &lt; <span class="c-num">5</span>; i++) p[i] = i * <span class="c-num">10</span>;
+
+<span class="c-comment">// realloc — redimensionner un bloc existant</span>
+p = (<span class="c-type">int</span> *)<span class="c-func">realloc</span>(p, <span class="c-num">10</span> * <span class="c-keyword">sizeof</span>(<span class="c-type">int</span>));
+<span class="c-keyword">if</span> (p == NULL) { <span class="c-comment">/* l'ancien bloc est toujours valide */</span> }
+
+<span class="c-comment">// free — libérer la mémoire (obligatoire !)</span>
+<span class="c-func">free</span>(p);
+p = NULL;   <span class="c-comment">// Bonne pratique : remettre à NULL après free</span></code></pre>
+      <h3>Exemple complet : tableau dynamique</h3>
+      <pre><code><span class="c-include">#include</span> <span class="c-string">&lt;stdio.h&gt;</span>
+<span class="c-include">#include</span> <span class="c-string">&lt;stdlib.h&gt;</span>
+
+<span class="c-type">int</span> <span class="c-func">main</span>() {
+    <span class="c-type">int</span> n;
+    <span class="c-func">printf</span>(<span class="c-string">"Taille du tableau : "</span>);
+    <span class="c-func">scanf</span>(<span class="c-string">"%d"</span>, &amp;n);
+
+    <span class="c-type">int</span> *tab = (<span class="c-type">int</span> *)<span class="c-func">malloc</span>(n * <span class="c-keyword">sizeof</span>(<span class="c-type">int</span>));
+    <span class="c-keyword">if</span> (!tab) { <span class="c-func">perror</span>(<span class="c-string">"malloc"</span>); <span class="c-keyword">return</span> <span class="c-num">1</span>; }
+
+    <span class="c-keyword">for</span> (<span class="c-type">int</span> i = <span class="c-num">0</span>; i &lt; n; i++) tab[i] = i * i;
+    <span class="c-keyword">for</span> (<span class="c-type">int</span> i = <span class="c-num">0</span>; i &lt; n; i++)
+        <span class="c-func">printf</span>(<span class="c-string">"%d\n"</span>, tab[i]);
+
+    <span class="c-func">free</span>(tab);
+    <span class="c-keyword">return</span> <span class="c-num">0</span>;
+}</code></pre>
+      <h3>Pièges courants</h3>
+      <table>
+        <thead><tr><th>Problème</th><th>Description</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Memory leak</strong></td><td>Oublier de <code>free()</code> → mémoire jamais libérée</td></tr>
+          <tr><td><strong>Use after free</strong></td><td>Utiliser un pointeur après <code>free()</code></td></tr>
+          <tr><td><strong>Double free</strong></td><td>Appeler <code>free()</code> deux fois sur le même pointeur</td></tr>
+          <tr><td><strong>Buffer overflow</strong></td><td>Écrire hors des limites de l'espace alloué</td></tr>
+          <tr><td><strong>NULL deref</strong></td><td>Utiliser un pointeur NULL sans vérifier</td></tr>
+        </tbody>
+      </table>
+      <div class="tip">🔧 Utiliser <strong>Valgrind</strong> pour détecter les fuites mémoire : <code>valgrind --leak-check=full ./mon_programme</code></div>
+    </section>
+
+    <section id="pointeurs-fonctions" class="card" data-keywords="pointeurs fonctions callback qsort typedef déclaration passage paramètre fonction de rappel">
+      <div class="card-header">
+        <span class="badge badge-red">Avancé</span>
+        <h2>Pointeurs de Fonctions</h2>
+      </div>
+      <pre><code><span class="c-comment">// Syntaxe : type_retour (*nom)(paramètres)</span>
+<span class="c-type">int</span> <span class="c-func">additionner</span>(<span class="c-type">int</span> a, <span class="c-type">int</span> b) { <span class="c-keyword">return</span> a + b; }
+<span class="c-type">int</span> <span class="c-func">multiplier</span>(<span class="c-type">int</span> a, <span class="c-type">int</span> b) { <span class="c-keyword">return</span> a * b; }
+
+<span class="c-type">int</span> <span class="c-func">main</span>() {
+    <span class="c-comment">// Déclarer et assigner</span>
+    <span class="c-type">int</span> (*operation)(<span class="c-type">int</span>, <span class="c-type">int</span>);
+    operation = additionner;
+    <span class="c-func">printf</span>(<span class="c-string">"%d\n"</span>, <span class="c-func">operation</span>(<span class="c-num">3</span>, <span class="c-num">4</span>));   <span class="c-comment">// 7</span>
+
+    operation = multiplier;
+    <span class="c-func">printf</span>(<span class="c-string">"%d\n"</span>, <span class="c-func">operation</span>(<span class="c-num">3</span>, <span class="c-num">4</span>));   <span class="c-comment">// 12</span>
+}</code></pre>
+      <h3>typedef pour simplifier</h3>
+      <pre><code><span class="c-keyword">typedef</span> <span class="c-type">int</span> (*OperFunc)(<span class="c-type">int</span>, <span class="c-type">int</span>);
+
+<span class="c-type">void</span> <span class="c-func">appliquer</span>(OperFunc f, <span class="c-type">int</span> x, <span class="c-type">int</span> y) {
+    <span class="c-func">printf</span>(<span class="c-string">"Résultat : %d\n"</span>, <span class="c-func">f</span>(x, y));
+}
+
+<span class="c-func">appliquer</span>(additionner, <span class="c-num">10</span>, <span class="c-num">5</span>);  <span class="c-comment">// 15</span>
+<span class="c-func">appliquer</span>(multiplier, <span class="c-num">10</span>, <span class="c-num">5</span>);  <span class="c-comment">// 50</span></code></pre>
+      <h3>qsort — exemple callback</h3>
+      <pre><code><span class="c-include">#include</span> <span class="c-string">&lt;stdlib.h&gt;</span>
+
+<span class="c-type">int</span> <span class="c-func">comparer</span>(<span class="c-keyword">const</span> <span class="c-type">void</span> *a, <span class="c-keyword">const</span> <span class="c-type">void</span> *b) {
+    <span class="c-keyword">return</span> (*(<span class="c-type">int</span>*)a - *(<span class="c-type">int</span>*)b);
+}
+
+<span class="c-type">int</span> tab[] = {<span class="c-num">5</span>, <span class="c-num">2</span>, <span class="c-num">8</span>, <span class="c-num">1</span>, <span class="c-num">9</span>};
+<span class="c-func">qsort</span>(tab, <span class="c-num">5</span>, <span class="c-keyword">sizeof</span>(<span class="c-type">int</span>), comparer);
+<span class="c-comment">// tab = {1, 2, 5, 8, 9}</span></code></pre>
+    </section>
+
+    <!-- ══════════════════════════════════════
+         SECTION 3 — STRUCTURES & UNIONS
+    ══════════════════════════════════════ -->
+
+    <section id="struct" class="card" data-keywords="struct structure déclaration membres champs accès point flèche . -> liste chaînée">
+      <div class="card-header">
+        <span class="badge badge-yellow">Intermédiaire</span>
+        <h2>struct — Structures</h2>
+      </div>
+      <p>Une <code>struct</code> regroupe plusieurs variables de types différents sous un même nom.</p>
+      <pre><code><span class="c-comment">// Déclaration d'une structure</span>
+<span class="c-keyword">struct</span> Etudiant {
+    <span class="c-type">char</span>  nom[<span class="c-num">50</span>];
+    <span class="c-type">int</span>   age;
+    <span class="c-type">float</span> moyenne;
+};
+
+<span class="c-comment">// Création d'une variable</span>
+<span class="c-keyword">struct</span> Etudiant e1;
+
+<span class="c-comment">// Initialisation</span>
+<span class="c-keyword">struct</span> Etudiant e2 = {<span class="c-string">"Alice"</span>, <span class="c-num">20</span>, <span class="c-num">17.5f</span>};
+
+<span class="c-comment">// Accès aux membres avec .</span>
+e1.age = <span class="c-num">22</span>;
+<span class="c-func">strcpy</span>(e1.nom, <span class="c-string">"Bob"</span>);
+e1.moyenne = <span class="c-num">14.0f</span>;
+
+<span class="c-func">printf</span>(<span class="c-string">"%s a %d ans (moyenne: %.1f)\n"</span>,
+       e2.nom, e2.age, e2.moyenne);</code></pre>
+      <h3>Pointeur vers une structure (opérateur →)</h3>
+      <pre><code><span class="c-keyword">struct</span> Etudiant *pe = &amp;e2;
+
+<span class="c-comment">// Ces deux formes sont équivalentes :</span>
+(*pe).age = <span class="c-num">21</span>;
+pe-&gt;age   = <span class="c-num">21</span>;   <span class="c-comment">// Syntaxe avec flèche (préférée)</span>
+
+<span class="c-comment">// Allocation dynamique d'une structure</span>
+<span class="c-keyword">struct</span> Etudiant *pe2 = <span class="c-func">malloc</span>(<span class="c-keyword">sizeof</span>(<span class="c-keyword">struct</span> Etudiant));
+pe2-&gt;age = <span class="c-num">19</span>;
+<span class="c-func">free</span>(pe2);</code></pre>
+      <h3>Passer une structure à une fonction</h3>
+      <pre><code><span class="c-comment">// Par valeur — copie complète (coûteux pour grandes structs)</span>
+<span class="c-type">void</span> <span class="c-func">afficherEtudiant</span>(<span class="c-keyword">struct</span> Etudiant e) { <span class="c-comment">/* ... */</span> }
+
+<span class="c-comment">// Par pointeur — recommandé (pas de copie)</span>
+<span class="c-type">void</span> <span class="c-func">modifierAge</span>(<span class="c-keyword">struct</span> Etudiant *e, <span class="c-type">int</span> nouvelAge) {
+    e-&gt;age = nouvelAge;
+}
+
+<span class="c-comment">// Par pointeur const — lecture seule, pas de copie</span>
+<span class="c-type">void</span> <span class="c-func">afficher</span>(<span class="c-keyword">const</span> <span class="c-keyword">struct</span> Etudiant *e) {
+    <span class="c-func">printf</span>(<span class="c-string">"%s\n"</span>, e-&gt;nom);
+}</code></pre>
+    </section>
+
+    <section id="typedef" class="card" data-keywords="typedef alias type nom type personnalisé simplification">
+      <div class="card-header">
+        <span class="badge badge-yellow">Intermédiaire</span>
+        <h2>typedef — Alias de Types</h2>
+      </div>
+      <pre><code><span class="c-comment">// typedef de base</span>
+<span class="c-keyword">typedef</span> <span class="c-type">unsigned int</span> uint;
+<span class="c-keyword">typedef</span> <span class="c-type">long long</span>    ll;
+
+<span class="c-type">uint</span> x = <span class="c-num">42</span>;
+<span class="c-type">ll</span> grand = <span class="c-num">9000000000LL</span>;
+
+<span class="c-comment">// typedef + struct (pattern classique)</span>
+<span class="c-keyword">typedef</span> <span class="c-keyword">struct</span> {
+    <span class="c-type">char</span>  nom[<span class="c-num">50</span>];
+    <span class="c-type">int</span>   age;
+    <span class="c-type">float</span> moyenne;
+} Etudiant;
+
+<span class="c-comment">// Maintenant on peut écrire Etudiant au lieu de struct Etudiant</span>
+Etudiant e1 = {<span class="c-string">"Alice"</span>, <span class="c-num">20</span>, <span class="c-num">17.5f</span>};
+Etudiant *pe = &amp;e1;
+
+<span class="c-comment">// typedef pour pointeur de fonction</span>
+<span class="c-keyword">typedef</span> <span class="c-type">void</span> (*CallbackFn)(<span class="c-type">int</span>);
+
+<span class="c-type">void</span> <span class="c-func">executerCallback</span>(CallbackFn fn, <span class="c-type">int</span> val) {
+    <span class="c-func">fn</span>(val);
+}</code></pre>
+    </section>
+
+    <section id="struct-imbriquees" class="card" data-keywords="structures imbriquées liste chaînée nœud node auto-référentielle récursive">
+      <div class="card-header">
+        <span class="badge badge-red">Avancé</span>
+        <h2>Structures Imbriquées &amp; Auto-référentielles</h2>
+      </div>
+      <pre><code><span class="c-comment">// Structures imbriquées</span>
+<span class="c-keyword">typedef</span> <span class="c-keyword">struct</span> {
+    <span class="c-type">float</span> x, y;
+} Point;
+
+<span class="c-keyword">typedef</span> <span class="c-keyword">struct</span> {
+    Point centre;
+    <span class="c-type">float</span> rayon;
+} Cercle;
+
+Cercle c = {{<span class="c-num">1.0f</span>, <span class="c-num">2.0f</span>}, <span class="c-num">5.0f</span>};
+<span class="c-func">printf</span>(<span class="c-string">"Centre : (%.1f, %.1f)\n"</span>, c.centre.x, c.centre.y);</code></pre>
+      <h3>Liste chaînée simple</h3>
+      <pre><code><span class="c-comment">// Structure auto-référentielle</span>
+<span class="c-keyword">typedef</span> <span class="c-keyword">struct</span> Noeud {
+    <span class="c-type">int</span> valeur;
+    <span class="c-keyword">struct</span> Noeud *suivant;  <span class="c-comment">// Doit utiliser "struct Noeud" ici</span>
+} Noeud;
+
+<span class="c-comment">// Créer et lier des nœuds</span>
+Noeud *n1 = (<span class="c-type">Noeud</span>*)<span class="c-func">malloc</span>(<span class="c-keyword">sizeof</span>(Noeud));
+Noeud *n2 = (<span class="c-type">Noeud</span>*)<span class="c-func">malloc</span>(<span class="c-keyword">sizeof</span>(Noeud));
+
+n1-&gt;valeur = <span class="c-num">10</span>;
+n1-&gt;suivant = n2;
+n2-&gt;valeur = <span class="c-num">20</span>;
+n2-&gt;suivant = NULL;
+
+<span class="c-comment">// Parcourir</span>
+Noeud *cur = n1;
+<span class="c-keyword">while</span> (cur != NULL) {
+    <span class="c-func">printf</span>(<span class="c-string">"%d\n"</span>, cur-&gt;valeur);
+    cur = cur-&gt;suivant;
+}
+
+<span class="c-comment">// Libérer</span>
+<span class="c-func">free</span>(n1); <span class="c-func">free</span>(n2);</code></pre>
+    </section>
+
+    <section id="union" class="card" data-keywords="union mémoire partagée type variant taille alignement">
+      <div class="card-header">
+        <span class="badge badge-red">Avancé</span>
+        <h2>union — Mémoire Partagée</h2>
+      </div>
+      <p>Une <code>union</code> permet à plusieurs membres de partager le même espace mémoire. La taille = taille du plus grand membre.</p>
+      <pre><code><span class="c-keyword">union</span> Donnee {
+    <span class="c-type">int</span>    entier;
+    <span class="c-type">float</span>  reel;
+    <span class="c-type">char</span>   caractere;
+};
+
+<span class="c-keyword">union</span> Donnee d;
+d.entier = <span class="c-num">42</span>;
+<span class="c-func">printf</span>(<span class="c-string">"%d\n"</span>, d.entier);       <span class="c-comment">// 42</span>
+
+d.reel = <span class="c-num">3.14f</span>;
+<span class="c-func">printf</span>(<span class="c-string">"%.2f\n"</span>, d.reel);      <span class="c-comment">// 3.14</span>
+<span class="c-func">printf</span>(<span class="c-string">"%d\n"</span>, d.entier);       <span class="c-comment">// ⚠ Valeur indéfinie !</span>
+
+<span class="c-func">printf</span>(<span class="c-string">"%zu\n"</span>, <span class="c-keyword">sizeof</span>(d));    <span class="c-comment">// 4 (taille du plus grand membre)</span></code></pre>
+      <h3>Union avec tag (pattern sûr)</h3>
+      <pre><code><span class="c-keyword">typedef</span> <span class="c-keyword">enum</span> { TYPE_INT, TYPE_FLOAT, TYPE_STR } TypeTag;
+
+<span class="c-keyword">typedef</span> <span class="c-keyword">struct</span> {
+    TypeTag tag;
+    <span class="c-keyword">union</span> {
+        <span class="c-type">int</span>    i;
+        <span class="c-type">float</span>  f;
+        <span class="c-type">char</span>  *s;
+    } valeur;
+} Variant;
+
+Variant v = {TYPE_FLOAT, {.f = <span class="c-num">3.14f</span>}};
+<span class="c-keyword">if</span> (v.tag == TYPE_FLOAT)
+    <span class="c-func">printf</span>(<span class="c-string">"%.2f\n"</span>, v.valeur.f);</code></pre>
+    </section>
+
+    <section id="enum" class="card" data-keywords="enum énumération constantes nommées flags bitmask">
+      <div class="card-header">
+        <span class="badge badge-green">Débutant</span>
+        <h2>enum — Énumérations</h2>
+      </div>
+      <pre><code><span class="c-comment">// Déclaration simple (valeurs : 0, 1, 2, ...)</span>
+<span class="c-keyword">typedef</span> <span class="c-keyword">enum</span> {
+    LUNDI, MARDI, MERCREDI, JEUDI, VENDREDI,
+    SAMEDI, DIMANCHE
+} Jour;
+
+Jour j = MERCREDI;   <span class="c-comment">// j vaut 2</span>
+
+<span class="c-keyword">if</span> (j == MERCREDI) <span class="c-func">printf</span>(<span class="c-string">"Milieu de semaine\n"</span>);
+
+<span class="c-comment">// Valeurs personnalisées</span>
+<span class="c-keyword">typedef</span> <span class="c-keyword">enum</span> {
+    ERREUR_AUCUNE  = <span class="c-num">0</span>,
+    ERREUR_FICHIER = <span class="c-num">1</span>,
+    ERREUR_MEMOIRE = <span class="c-num">2</span>,
+    ERREUR_RESEAU  = <span class="c-num">100</span>
+} CodeErreur;
+
+<span class="c-comment">// Enum comme flags (bitmask)</span>
+<span class="c-keyword">typedef</span> <span class="c-keyword">enum</span> {
+    PERMISSION_LIRE    = <span class="c-num">1</span> &lt;&lt; <span class="c-num">0</span>,  <span class="c-comment">// 001 = 1</span>
+    PERMISSION_ECRIRE  = <span class="c-num">1</span> &lt;&lt; <span class="c-num">1</span>,  <span class="c-comment">// 010 = 2</span>
+    PERMISSION_EXEC    = <span class="c-num">1</span> &lt;&lt; <span class="c-num">2</span>   <span class="c-comment">// 100 = 4</span>
+} Permission;
+
+<span class="c-type">int</span> perms = PERMISSION_LIRE | PERMISSION_ECRIRE;
+<span class="c-keyword">if</span> (perms &amp; PERMISSION_LIRE) <span class="c-func">printf</span>(<span class="c-string">"Lecture autorisée\n"</span>);</code></pre>
+    </section>
+
+    <!-- ══════════════════════════════════════
+         SECTION 4 — FICHIERS & I/O
+    ══════════════════════════════════════ -->
+
+    <section id="io-standard" class="card" data-keywords="entrées sorties printf scanf format specifier %d %f %s %c %p puts gets fgets stdin stdout stderr">
+      <div class="card-header">
+        <span class="badge badge-green">Débutant</span>
+        <h2>Entrées / Sorties Standard</h2>
+      </div>
+      <h3>printf — spécificateurs de format</h3>
+      <table>
+        <thead><tr><th>Format</th><th>Type</th><th>Exemple</th></tr></thead>
+        <tbody>
+          <tr><td><code>%d</code> / <code>%i</code></td><td>int</td><td><code>printf("%d", 42)</code></td></tr>
+          <tr><td><code>%u</code></td><td>unsigned int</td><td><code>printf("%u", 42u)</code></td></tr>
+          <tr><td><code>%f</code></td><td>float/double</td><td><code>printf("%.2f", 3.14)</code></td></tr>
+          <tr><td><code>%e</code></td><td>notation exponentielle</td><td><code>printf("%e", 0.001)</code></td></tr>
+          <tr><td><code>%c</code></td><td>char</td><td><code>printf("%c", 'A')</code></td></tr>
+          <tr><td><code>%s</code></td><td>char*</td><td><code>printf("%s", "bonjour")</code></td></tr>
+          <tr><td><code>%p</code></td><td>pointeur</td><td><code>printf("%p", ptr)</code></td></tr>
+          <tr><td><code>%x</code> / <code>%X</code></td><td>hexadécimal</td><td><code>printf("%x", 255)</code> → ff</td></tr>
+          <tr><td><code>%o</code></td><td>octal</td><td><code>printf("%o", 8)</code> → 10</td></tr>
+          <tr><td><code>%ld</code></td><td>long</td><td><code>printf("%ld", 1000000L)</code></td></tr>
+          <tr><td><code>%lld</code></td><td>long long</td><td><code>printf("%lld", 9LL)</code></td></tr>
+          <tr><td><code>%zu</code></td><td>size_t</td><td><code>printf("%zu", sizeof(x))</code></td></tr>
+          <tr><td><code>%%</code></td><td>% littéral</td><td><code>printf("100%%")</code></td></tr>
+        </tbody>
+      </table>
+      <h3>Options de formatage</h3>
+      <pre><code><span class="c-func">printf</span>(<span class="c-string">"%10d\n"</span>, <span class="c-num">42</span>);      <span class="c-comment">// "        42" (largeur 10, aligné droite)</span>
+<span class="c-func">printf</span>(<span class="c-string">"%-10d|\n"</span>, <span class="c-num">42</span>);     <span class="c-comment">// "42        |" (aligné gauche)</span>
+<span class="c-func">printf</span>(<span class="c-string">"%010d\n"</span>, <span class="c-num">42</span>);     <span class="c-comment">// "0000000042" (rempli de zéros)</span>
+<span class="c-func">printf</span>(<span class="c-string">"%.3f\n"</span>, <span class="c-num">3.14159</span>); <span class="c-comment">// "3.142" (3 décimales)</span>
+<span class="c-func">printf</span>(<span class="c-string">"%8.2f\n"</span>, <span class="c-num">3.14</span>);   <span class="c-comment">// "    3.14" (largeur 8, 2 décimales)</span></code></pre>
+      <h3>scanf — lire des entrées</h3>
+      <pre><code><span class="c-type">int</span> age;
+<span class="c-type">float</span> note;
+<span class="c-type">char</span> nom[<span class="c-num">50</span>];
+
+<span class="c-func">scanf</span>(<span class="c-string">"%d"</span>, &amp;age);           <span class="c-comment">// Lire un entier</span>
+<span class="c-func">scanf</span>(<span class="c-string">"%f"</span>, &amp;note);          <span class="c-comment">// Lire un float</span>
+<span class="c-func">scanf</span>(<span class="c-string">"%49s"</span>, nom);          <span class="c-comment">// Lire un mot (pas d'espaces)</span>
+<span class="c-func">scanf</span>(<span class="c-string">"%d %f"</span>, &amp;age, &amp;note); <span class="c-comment">// Lire plusieurs valeurs</span>
+
+<span class="c-comment">// Lire une ligne entière avec espaces</span>
+<span class="c-func">fgets</span>(nom, <span class="c-keyword">sizeof</span>(nom), stdin);
+<span class="c-comment">// ⚠ fgets inclut le '\n' → à supprimer si besoin</span>
+nom[<span class="c-func">strcspn</span>(nom, <span class="c-string">"\n"</span>)] = <span class="c-string">'\0'</span>;  <span class="c-comment">// Supprimer le '\n'</span></code></pre>
+      <h3>sprintf / snprintf</h3>
+      <pre><code><span class="c-type">char</span> buffer[<span class="c-num">100</span>];
+
+<span class="c-comment">// sprintf — écrire dans une chaîne (risque de débordement !)</span>
+<span class="c-func">sprintf</span>(buffer, <span class="c-string">"Nom: %s, Age: %d"</span>, <span class="c-string">"Alice"</span>, <span class="c-num">20</span>);
+
+<span class="c-comment">// snprintf — version sécurisée (recommandé)</span>
+<span class="c-func">snprintf</span>(buffer, <span class="c-keyword">sizeof</span>(buffer), <span class="c-string">"Valeur: %d"</span>, <span class="c-num">42</span>);</code></pre>
+    </section>
+
+    <section id="string-h" class="card" data-keywords="string.h strlen strcpy strncpy strcat strncat strcmp strncmp strchr strstr strtok memset memcpy memmove">
+      <div class="card-header">
+        <span class="badge badge-yellow">Intermédiaire</span>
+        <h2>Manipulation de Chaînes — string.h</h2>
+      </div>
+      <table>
+        <thead><tr><th>Fonction</th><th>Description</th><th>Exemple</th></tr></thead>
+        <tbody>
+          <tr><td><code>strlen(s)</code></td><td>Longueur de la chaîne</td><td><code>strlen("hello")</code> → 5</td></tr>
+          <tr><td><code>strcpy(dest, src)</code></td><td>Copier src dans dest</td><td>⚠ Pas de vérification de taille</td></tr>
+          <tr><td><code>strncpy(dest, src, n)</code></td><td>Copier au max n octets</td><td>Plus sûr que strcpy</td></tr>
+          <tr><td><code>strcat(dest, src)</code></td><td>Concaténer src à dest</td><td>⚠ Pas de vérification de taille</td></tr>
+          <tr><td><code>strncat(dest, src, n)</code></td><td>Concaténer au max n octets</td><td>Plus sûr</td></tr>
+          <tr><td><code>strcmp(s1, s2)</code></td><td>Comparer deux chaînes</td><td>0 si égales, &lt;0 ou &gt;0 sinon</td></tr>
+          <tr><td><code>strncmp(s1, s2, n)</code></td><td>Comparer les n premiers octets</td><td>Idem mais limité</td></tr>
+          <tr><td><code>strchr(s, c)</code></td><td>Chercher un char dans s</td><td>Retourne pointeur ou NULL</td></tr>
+          <tr><td><code>strstr(s, sub)</code></td><td>Chercher une sous-chaîne</td><td>Retourne pointeur ou NULL</td></tr>
+          <tr><td><code>strtok(s, delim)</code></td><td>Découper en tokens</td><td>Modifie la chaîne source !</td></tr>
+          <tr><td><code>memset(ptr, val, n)</code></td><td>Remplir n octets avec val</td><td><code>memset(tab, 0, sizeof(tab))</code></td></tr>
+          <tr><td><code>memcpy(dest, src, n)</code></td><td>Copier n octets</td><td>Zones non superposées</td></tr>
+          <tr><td><code>memmove(dest, src, n)</code></td><td>Copier n octets (sûr)</td><td>Zones peuvent se superposer</td></tr>
+        </tbody>
+      </table>
+      <pre><code><span class="c-include">#include</span> <span class="c-string">&lt;string.h&gt;</span>
+<span class="c-include">#include</span> <span class="c-string">&lt;stdio.h&gt;</span>
+
+<span class="c-type">char</span> s1[<span class="c-num">20</span>] = <span class="c-string">"Bonjour"</span>;
+<span class="c-type">char</span> s2[<span class="c-num">20</span>] = <span class="c-string">"Monde"</span>;
+
+<span class="c-comment">// Longueur</span>
+<span class="c-func">printf</span>(<span class="c-string">"%zu\n"</span>, <span class="c-func">strlen</span>(s1));         <span class="c-comment">// 7</span>
+
+<span class="c-comment">// Concaténation sécurisée</span>
+<span class="c-func">strncat</span>(s1, <span class="c-string">" "</span>, <span class="c-keyword">sizeof</span>(s1) - <span class="c-func">strlen</span>(s1) - <span class="c-num">1</span>);
+<span class="c-func">strncat</span>(s1, s2, <span class="c-keyword">sizeof</span>(s1) - <span class="c-func">strlen</span>(s1) - <span class="c-num">1</span>);
+<span class="c-func">printf</span>(<span class="c-string">"%s\n"</span>, s1);  <span class="c-comment">// "Bonjour Monde"</span>
+
+<span class="c-comment">// Comparaison</span>
+<span class="c-keyword">if</span> (<span class="c-func">strcmp</span>(s1, s2) == <span class="c-num">0</span>) <span class="c-func">printf</span>(<span class="c-string">"Identiques\n"</span>);
+
+<span class="c-comment">// Découpage (strtok)</span>
+<span class="c-type">char</span> phrase[] = <span class="c-string">"un,deux,trois"</span>;
+<span class="c-type">char</span> *token = <span class="c-func">strtok</span>(phrase, <span class="c-string">","</span>);
+<span class="c-keyword">while</span> (token != NULL) {
+    <span class="c-func">printf</span>(<span class="c-string">"%s\n"</span>, token);
+    token = <span class="c-func">strtok</span>(NULL, <span class="c-string">","</span>);
+}</code></pre>
+    </section>
+
+    <section id="fichiers" class="card" data-keywords="fichiers fopen fclose fread fwrite fprintf fscanf fgets fputs fseek ftell rewind SEEK_SET SEEK_CUR SEEK_END EOF mode r w a binaire">
+      <div class="card-header">
+        <span class="badge badge-yellow">Intermédiaire</span>
+        <h2>Fichiers — stdio.h</h2>
+      </div>
+      <h3>Modes d'ouverture</h3>
+      <table>
+        <thead><tr><th>Mode</th><th>Description</th></tr></thead>
+        <tbody>
+          <tr><td><code>"r"</code></td><td>Lecture seule (fichier doit exister)</td></tr>
+          <tr><td><code>"w"</code></td><td>Écriture (crée ou vide le fichier)</td></tr>
+          <tr><td><code>"a"</code></td><td>Ajout en fin de fichier</td></tr>
+          <tr><td><code>"r+"</code></td><td>Lecture + écriture (doit exister)</td></tr>
+          <tr><td><code>"w+"</code></td><td>Lecture + écriture (crée ou vide)</td></tr>
+          <tr><td><code>"rb"</code> / <code>"wb"</code></td><td>Modes binaires</td></tr>
+        </tbody>
+      </table>
+      <pre><code><span class="c-include">#include</span> <span class="c-string">&lt;stdio.h&gt;</span>
+
+<span class="c-comment">// Écrire dans un fichier texte</span>
+FILE *f = <span class="c-func">fopen</span>(<span class="c-string">"data.txt"</span>, <span class="c-string">"w"</span>);
+<span class="c-keyword">if</span> (f == NULL) { <span class="c-func">perror</span>(<span class="c-string">"fopen"</span>); <span class="c-keyword">return</span> <span class="c-num">1</span>; }
+
+<span class="c-func">fprintf</span>(f, <span class="c-string">"Ligne 1\n"</span>);
+<span class="c-func">fprintf</span>(f, <span class="c-string">"Valeur: %d\n"</span>, <span class="c-num">42</span>);
+<span class="c-func">fputs</span>(<span class="c-string">"Ligne 3\n"</span>, f);
+<span class="c-func">fclose</span>(f);
+
+<span class="c-comment">// Lire un fichier texte</span>
+f = <span class="c-func">fopen</span>(<span class="c-string">"data.txt"</span>, <span class="c-string">"r"</span>);
+<span class="c-keyword">if</span> (f == NULL) { <span class="c-func">perror</span>(<span class="c-string">"fopen"</span>); <span class="c-keyword">return</span> <span class="c-num">1</span>; }
+
+<span class="c-type">char</span> ligne[<span class="c-num">256</span>];
+<span class="c-keyword">while</span> (<span class="c-func">fgets</span>(ligne, <span class="c-keyword">sizeof</span>(ligne), f) != NULL) {
+    <span class="c-func">printf</span>(<span class="c-string">"%s"</span>, ligne);
+}
+<span class="c-func">fclose</span>(f);</code></pre>
+      <h3>Fichiers binaires</h3>
+      <pre><code><span class="c-keyword">typedef</span> <span class="c-keyword">struct</span> { <span class="c-type">int</span> id; <span class="c-type">float</span> val; } Record;
+
+<span class="c-comment">// Écriture binaire</span>
+Record r1 = {<span class="c-num">1</span>, <span class="c-num">3.14f</span>};
+FILE *fb = <span class="c-func">fopen</span>(<span class="c-string">"data.bin"</span>, <span class="c-string">"wb"</span>);
+<span class="c-func">fwrite</span>(&amp;r1, <span class="c-keyword">sizeof</span>(Record), <span class="c-num">1</span>, fb);
+<span class="c-func">fclose</span>(fb);
+
+<span class="c-comment">// Lecture binaire</span>
+Record r2;
+fb = <span class="c-func">fopen</span>(<span class="c-string">"data.bin"</span>, <span class="c-string">"rb"</span>);
+<span class="c-func">fread</span>(&amp;r2, <span class="c-keyword">sizeof</span>(Record), <span class="c-num">1</span>, fb);
+<span class="c-func">printf</span>(<span class="c-string">"id=%d val=%.2f\n"</span>, r2.id, r2.val);
+<span class="c-func">fclose</span>(fb);</code></pre>
+      <h3>Positionnement dans un fichier</h3>
+      <pre><code><span class="c-func">fseek</span>(f, <span class="c-num">0</span>, SEEK_SET);   <span class="c-comment">// Début du fichier</span>
+<span class="c-func">fseek</span>(f, <span class="c-num">0</span>, SEEK_END);   <span class="c-comment">// Fin du fichier</span>
+<span class="c-func">fseek</span>(f, <span class="c-num">10</span>, SEEK_CUR);  <span class="c-comment">// +10 depuis position courante</span>
+<span class="c-type">long</span> pos = <span class="c-func">ftell</span>(f);     <span class="c-comment">// Obtenir la position courante</span>
+<span class="c-func">rewind</span>(f);               <span class="c-comment">// Revenir au début (= fseek(f,0,SEEK_SET))</span>
+
+<span class="c-comment">// Obtenir la taille d'un fichier</span>
+<span class="c-func">fseek</span>(f, <span class="c-num">0</span>, SEEK_END);
+<span class="c-type">long</span> taille = <span class="c-func">ftell</span>(f);
+<span class="c-func">rewind</span>(f);</code></pre>
+    </section>
+
+    <section id="preprocesseur" class="card" data-keywords="préprocesseur macros define include ifdef ifndef endif pragma once garde inclusion conditionnelle">
+      <div class="card-header">
+        <span class="badge badge-yellow">Intermédiaire</span>
+        <h2>Préprocesseur &amp; Macros</h2>
+      </div>
+      <pre><code><span class="c-comment">// Inclusion de fichiers</span>
+<span class="c-include">#include</span> <span class="c-string">&lt;stdio.h&gt;</span>    <span class="c-comment">// Bibliothèque système</span>
+<span class="c-include">#include</span> <span class="c-string">"mon_fichier.h"</span> <span class="c-comment">// Fichier local</span>
+
+<span class="c-comment">// Définir des constantes</span>
+<span class="c-include">#define</span> PI 3.14159265
+<span class="c-include">#define</span> MAX(a, b) ((a) > (b) ? (a) : (b))
+<span class="c-include">#define</span> CARRE(x)  ((x) * (x))
+
+<span class="c-func">printf</span>(<span class="c-string">"%d\n"</span>, MAX(<span class="c-num">3</span>, <span class="c-num">7</span>));   <span class="c-comment">// 7</span>
+<span class="c-func">printf</span>(<span class="c-string">"%d\n"</span>, CARRE(<span class="c-num">4</span>));  <span class="c-comment">// 16</span>
+<span class="c-comment">// ⚠ CARRE(2+3) → ((2+3)*(2+3)) = 25 — les () sont importantes !</span>
+
+<span class="c-comment">// Compilation conditionnelle</span>
+<span class="c-include">#ifdef</span> DEBUG
+    <span class="c-func">printf</span>(<span class="c-string">"[DEBUG] x = %d\n"</span>, x);
+<span class="c-include">#endif</span>
+
+<span class="c-include">#ifndef</span> NOM_HEADER_H   <span class="c-comment">// Garde d'inclusion</span>
+<span class="c-include">#define</span> NOM_HEADER_H
+<span class="c-comment">/* Contenu du header */</span>
+<span class="c-include">#endif</span>
+
+<span class="c-comment">// Macros prédéfinies</span>
+<span class="c-func">printf</span>(<span class="c-string">"Fichier : %s\n"</span>, __FILE__);
+<span class="c-func">printf</span>(<span class="c-string">"Ligne   : %d\n"</span>, __LINE__);
+<span class="c-func">printf</span>(<span class="c-string">"Date    : %s\n"</span>, __DATE__);
+<span class="c-func">printf</span>(<span class="c-string">"Fonct.  : %s\n"</span>, __func__);</code></pre>
+      <h3>Gardes d'inclusion (header guard)</h3>
+      <pre><code><span class="c-comment">// Méthode classique — dans chaque .h</span>
+<span class="c-include">#ifndef</span> MON_MODULE_H
+<span class="c-include">#define</span> MON_MODULE_H
+
+<span class="c-comment">/* Déclarations... */</span>
+
+<span class="c-include">#endif</span> <span class="c-comment">/* MON_MODULE_H */</span>
+
+<span class="c-comment">// Méthode moderne (supportée par la plupart des compilateurs)</span>
+<span class="c-include">#pragma</span> once
+<span class="c-comment">/* Déclarations... */</span></code></pre>
+    </section>
+
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>
